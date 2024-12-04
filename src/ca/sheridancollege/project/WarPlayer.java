@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package ca.sheridancollege.project;
+import ca.sheridancollege.project.cards.Card;
+
 import java.util.ArrayList;
 
 
