@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 public class CardDeck extends GroupOfCards{
 
+
+
     private static CardDeck instance;
 
     private CardDeck() {
@@ -24,6 +26,7 @@ public class CardDeck extends GroupOfCards{
     }
 
     private void initializeDeck() {
+        System.out.println("Initializing the deck...");
         ArrayList<Card> cards = new ArrayList<>();
 
         //filling deck with all the cards
@@ -35,8 +38,12 @@ public class CardDeck extends GroupOfCards{
 
         setCards(cards);
     }
-    private void setCards(ArrayList<Card> cards) {
+    @Override
+    protected void setCards(ArrayList<Card> cards) {
+        super.setCards(new ArrayList<>());
+
         super.getCards().clear();
         super.getCards().addAll(cards);
+        super.shuffle();
     }
 }
