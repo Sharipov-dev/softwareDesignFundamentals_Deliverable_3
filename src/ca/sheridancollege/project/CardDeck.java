@@ -12,7 +12,7 @@ public class CardDeck extends GroupOfCards{
     private static CardDeck instance;
 
     private CardDeck() {
-        super(56);
+        super(52);
         initializeDeck();
     }
 
