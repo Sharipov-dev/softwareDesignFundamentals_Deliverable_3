@@ -53,7 +53,7 @@ public class WarGame extends Game{
                     playRound.play(warPlayers);
                     break;
                 case 2:
-                    if (returnLivingCount(warPlayers) >= 3) {
+                    if (returnActiveCount(warPlayers) >= 3) {
                         user_player.setIs_participating(false);
                         int waits_remaining = user_player.getWait_counter() - 1;
                         user_player.setWait_counter(waits_remaining);
