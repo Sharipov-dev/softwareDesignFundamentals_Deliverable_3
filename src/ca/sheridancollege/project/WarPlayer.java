@@ -13,6 +13,7 @@ public class WarPlayer extends Player {
 
     private ArrayList<Card> personalCards;
     private boolean is_participating;
+    private int wait_counter; 
 
     public WarPlayer(String name) {
         super(name);
@@ -52,4 +53,18 @@ public class WarPlayer extends Player {
     public void play() {
 
     };
+
+    /**
+     * @return the wait_counter
+     */
+    public int getWait_counter() {
+        return wait_counter;
+    }
+
+    /**
+     * @param wait_counter the wait_counter to set
+     */
+    public void setWait_counter(int wait_counter) {
+        this.wait_counter = wait_counter;
+    }
 }

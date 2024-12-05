@@ -26,20 +26,32 @@ public class WarGame extends Game{
     @Override
     public void play() {
         ArrayList<Player> warPlayers = this.getPlayers();
+        
         // If the player is replaying with the same players/settings, then the players do not get reset
         player_meet_and_greet(warPlayers);
         System.out.println(warPlayers);
+        
+        // Assign starting cards to players
+        setHands(warPlayers);
+        
+        // Grant the User player 5 Wait uses
+        int total_waits = 5;
+        WarPlayer user_player = (WarPlayer) warPlayers.get(0);
+        user_player.setWait_counter(total_waits);
+        
+        // Main Menu
         Scanner sc = new Scanner(System.in);
         System.out.println("Game started, choose options: ");
-        setHands(warPlayers);
         OUTER:
         while (true) {
             System.out.println("1. Play");
             System.out.print("2. Wait (Skip the round)");
             if (warPlayers.size() < 3) {
-                System.out.println(" - N/A (requires 3+ players)");
+                System.out.println(" - N/A (requires 3+ active players)");
+            } else if (user_player.getWait_counter() == 0) {
+                System.out.println(" - N/A (you are out of waits)");
             } else {
-                System.out.println();
+                System.out.println(": " + user_player.getWait_counter() + " uses left!");
             }
             System.out.println("3. Status");
             System.out.println("4. Forfeit");
@@ -54,6 +66,8 @@ public class WarGame extends Game{
                     if (warPlayers.size() >= 3) {
                         WarPlayer warPlayer = (WarPlayer) warPlayers.get(0);
                         warPlayer.setIs_participating(false);
+                        int waits_remaining = warPlayer.getWait_counter() - 1;
+                        warPlayer.setWait_counter(waits_remaining);
                         playRound.play(warPlayers);
                     }
                     break;
