@@ -36,6 +36,7 @@ public class WarGame extends Game{
             System.out.println("1. Play");
             System.out.println("2. Wait (Skip the round)");
             System.out.println("3. Status");
+            System.out.println("4. Forfeit");
 
             int choice = sc.nextInt();
             if(choice == 1){
