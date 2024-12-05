@@ -13,11 +13,12 @@ public class WarGame extends Game{
     private int roundCount = 0;
     private boolean replay;
     private final PlayRound playRound;
+    private List<Player> lostPlayers;
 
     public WarGame(String name) {
         super(name);
         playRound = new PlayRound();
-        
+        lostPlayers = new ArrayList<>();
     }
 
     /**
@@ -80,6 +81,18 @@ public class WarGame extends Game{
                     System.out.println("Unknown choice; try again.");
                     break;
             }
+            WarPlayer user = (WarPlayer) warPlayers.get(0);
+            declareWinner();
+            if (!getPlayers().contains(user)) {
+                System.out.println("You lost!");
+                break ;
+            } else if (lostPlayers.size() == warPlayers.size() - 1) {
+                System.out.println("Congratulations, You won!");
+                break ;
+            } else {
+                System.out.println("No winners in this round");
+            }
+
         }
         System.out.println("Finishing the game...");
 
@@ -164,6 +177,15 @@ public class WarGame extends Game{
      */
     @Override
     public void declareWinner() {
+        List<Player> toRemove = new ArrayList<>();
+        for (Player player: getPlayers()) {
+            WarPlayer warPlayer = (WarPlayer) player;
+            if (warPlayer.getPersonalCards().isEmpty()) {
+                lostPlayers.add(warPlayer);
+                toRemove.add(player);
+            }
+        }
+        getPlayers().removeAll(toRemove);
 
     }
     public void reset(){
