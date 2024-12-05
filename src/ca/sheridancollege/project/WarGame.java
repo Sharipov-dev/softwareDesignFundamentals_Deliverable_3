@@ -39,6 +39,7 @@ public class WarGame extends Game{
             System.out.println("3. Status");
             System.out.println("4. Forfeit");
             System.out.println("Your choice: ");
+
             int choice = sc.nextInt();
             switch (choice) {
                 case 1:
