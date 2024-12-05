@@ -1,8 +1,10 @@
 package ca.sheridancollege.project;
 
+import java.util.Arrays;
+
 public class WarGame extends Game{
 
-    private int roundCount;
+    private int roundCount = 0;
 
     public WarGame(String name) {
         super(name);
@@ -13,7 +15,7 @@ public class WarGame extends Game{
      */
     @Override
     public void play() {
-
+        String[] player_names = InitialisePlayers.register_players();
     }
 
     /**
@@ -24,7 +26,7 @@ public class WarGame extends Game{
 
     }
     public void reset(){
-
+        setRoundCount(0);
     }
 
     public int getRoundCount() {
