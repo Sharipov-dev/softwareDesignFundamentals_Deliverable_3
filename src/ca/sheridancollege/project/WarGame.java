@@ -54,11 +54,13 @@ public class WarGame extends Game{
                     break;
                 case 2:
                     if (returnLivingCount(warPlayers) >= 3) {
-                        WarPlayer warPlayer = (WarPlayer) warPlayers.get(0);
-                        warPlayer.setIs_participating(false);
-                        int waits_remaining = warPlayer.getWait_counter() - 1;
-                        warPlayer.setWait_counter(waits_remaining);
-                        playRound.play(warPlayers);
+                        user_player.setIs_participating(false);
+                        int waits_remaining = user_player.getWait_counter() - 1;
+                        user_player.setWait_counter(waits_remaining);
+                        boolean notTied = playRound.play(warPlayers);
+                        if (!user_player.getPersonalCards().isEmpty() && notTied == true) {
+                            user_player.setIs_participating(true);
+                        }
                     }
                     break;
                 case 3:
