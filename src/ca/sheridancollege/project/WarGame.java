@@ -32,21 +32,39 @@ public class WarGame extends Game{
         Scanner sc = new Scanner(System.in);
         System.out.println("Game started, choose options: ");
         setHands(warPlayers);
-        while(true){
+        OUTER:
+        while (true) {
             System.out.println("1. Play");
             System.out.println("2. Wait (Skip the round)");
             System.out.println("3. Status");
-
+            System.out.println("4. Forfeit");
+            System.out.println("Your choice: ");
             int choice = sc.nextInt();
-            if(choice == 1){
-                playRound.play(warPlayers);
-            } else if(choice == 2){
-                WarPlayer warPlayer = (WarPlayer) warPlayers.get(0);
-                warPlayer.setIs_participating(false);
-                playRound.play(warPlayers);
-            }
-            else if(choice == 4){
-                break;
+            switch (choice) {
+                case 1:
+                    playRound.play(warPlayers);
+                    break;
+                case 2:
+                    WarPlayer warPlayer = (WarPlayer) warPlayers.get(0);
+                    warPlayer.setIs_participating(false);
+                    playRound.play(warPlayers);
+                    break;
+                case 3:
+                    String[] name_list = new String[warPlayers.size()];
+                    int[] score_list = new int[warPlayers.size()];
+                    for (int i = 0; i < warPlayers.size(); i++) {
+                        WarPlayer player_instance = (WarPlayer) warPlayers.get(i);
+                        ArrayList<Card> personalCards = player_instance.getPersonalCards();
+                        name_list[i] = player_instance.getName();
+                        score_list[i] = personalCards.size(); 
+                    }
+                    Status.display_stats(roundCount, name_list, score_list);
+                    break;
+                case 4:
+                    break OUTER;
+                default:
+                    System.out.println("Unknown choice; try again.");
+                    break;
             }
         }
         System.out.println("Finishing the game...");

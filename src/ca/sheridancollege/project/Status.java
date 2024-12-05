@@ -11,34 +11,35 @@ package ca.sheridancollege.project;
  * @author Salan
  */
 public class Status {
-    public void display_stats(int roundcount, String[] player_names, int[] scores) {
+    public static void display_stats(int roundcount, String[] player_names, int[] scores) {
         int top_score = get_top_score(scores);
+        System.out.println(top_score);
         
         System.out.println("Current Round: #" + roundcount);
-        System.out.println("Players:");
         
         print_scoreboard(player_names, scores, top_score);
     }
     
     // Get top score so that the winning player(s) can be described as such
-    private int get_top_score(int[] scores) {
+    private static int get_top_score(int[] scores) {
         int top_score = 0;
         for (int i = 0; i < scores.length; i++) {
-            if (top_score >= scores[i]) {
+            if (top_score <= scores[i]) {
                 top_score = scores[i];
             }
         }
         return top_score;
     }
     
-    private void print_scoreboard(String[] player_names, int[] scores, int top_score) {
+    private static void print_scoreboard(String[] player_names, int[] scores, int top_score) {
         for (int i = 0; i < player_names.length; i++) {
-            System.out.println(player_names[i] + " has: " + scores[i]);
+            System.out.print("Player " + player_names[i] + " has: " + scores[i]);
             if (scores[i] <= 0) {
                 System.out.print(" - Eliminated");
-            } else if (scores[i] == top_score) {
+            } else if (scores[i] >= top_score) {
                 System.out.print(" - Winning");
             }
+            System.out.println();
         }
     }
 }
