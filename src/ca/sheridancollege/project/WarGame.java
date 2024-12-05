@@ -44,6 +44,7 @@ public class WarGame extends Game{
         System.out.println("Game started, choose options: ");
         OUTER:
         while (true) {
+            // Prints menu options
             display_menu_options(warPlayers, user_player);
 
             int choice = sc.nextInt();
