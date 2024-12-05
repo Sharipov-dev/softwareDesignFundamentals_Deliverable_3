@@ -31,27 +31,33 @@ public class PlayRound {
         cardPot.addToPot(cardsInPlay);
         
         // Compare cards to determine who the winner is, if there is one
-        WarPlayer winner = compareCards(participatingPlayers);
+        ArrayList<WarPlayer> tiedPlayers = new ArrayList<>();
+        WarPlayer winner = findWinner(participatingPlayers, tiedPlayers);
 
-        boolean roundWon = checkWinner(winner, participatingPlayers);
+        boolean roundWon = checkWinner(winner, participatingPlayers, tiedPlayers);
         
         return roundWon;
     }
 
-    private WarPlayer compareCards(ArrayList<WarPlayer> players) {
+    // This method tries to find a winner by comparing cards played; renamed for clarity of purpose
+    private WarPlayer findWinner(ArrayList<WarPlayer> players, ArrayList<WarPlayer> tiedPlayers) {
         FrenchCard highestCard = null;
         WarPlayer winner = null;
-
 
         for (WarPlayer player : players) {
             if (player.is_participating() && !player.getPersonalCards().isEmpty()) {
                 FrenchCard card = (FrenchCard) cardsInPlay.get(players.indexOf(player));
 
-
+                // If currently checked card is the highest
                 if (highestCard == null || card.getValue().getRank() > highestCard.getValue().getRank()) {
                     highestCard = card;
+                    tiedPlayers.clear();
+                    tiedPlayers.add(player); // Add to list, just in case the next card checked is tied
                     winner = player;
-                } else if (card.getValue().getRank() == highestCard.getValue().getRank()) {
+                } 
+                // If currently checked card is equal to the highest, they are tied
+                else if (card.getValue().getRank() == highestCard.getValue().getRank()) {
+                    tiedPlayers.add(player);
                     winner = null;
                 }
             }
@@ -85,19 +91,25 @@ public class PlayRound {
         return participatingPlayers;
     }
     
-    private boolean checkWinner(WarPlayer winner, ArrayList<WarPlayer> participatingPlayers) {
+    private boolean checkWinner(WarPlayer winner, ArrayList<WarPlayer> participatingPlayers, 
+            ArrayList<WarPlayer> tiedPlayers) {
         if (winner != null) {
             // One person claims the pot
             winner.getPersonalCards().addAll(cardPot.getCardPot());
-            System.out.println(winner.getName() + " wins the round and collects " + cardsInPlay.size() + " cards.");
+            System.out.println(winner.getName() + " wins the round and collects " + cardPot.getCardPot().size() + " cards.");
             cardPot.clearPot();
+            for (WarPlayer player : participatingPlayers) {
+                player.setIs_participating(true);
+            }
             return true;
         } else {
             // Nobody won; pot remains and all non-tied parties are flagged as not participating
             System.out.println("It's a tie! Play one more round to get all the cards.");
             for (WarPlayer player : participatingPlayers) {
-                player.setIs_participating(false);
-                System.out.println(player.getName() + " has lost the tie and will sit the next hand out.");
+                if (!tiedPlayers.contains(player)) {
+                    player.setIs_participating(false);
+                    System.out.println(player.getName() + " has lost the tie and will sit the next hand out.");
+                }
             }
             return false;
         }
