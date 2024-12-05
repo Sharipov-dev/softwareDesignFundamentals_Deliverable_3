@@ -1,7 +1,6 @@
 package ca.sheridancollege.project;
 
 import ca.sheridancollege.project.card.Card;
-import ca.sheridancollege.project.card.FrenchCard;
 
 import java.util.ArrayList;
 
@@ -12,7 +11,7 @@ import java.util.ArrayList;
  */
 public class WarPlayer extends Player {
 
-    private ArrayList<FrenchCard> personalCards;
+    private ArrayList<Card> personalCards;
     private boolean is_participating;
 
     public WarPlayer(String name) {
@@ -24,14 +23,14 @@ public class WarPlayer extends Player {
     /**
      * @return the personalCards
      */
-    public ArrayList<FrenchCard> getPersonalCards() {
+    public ArrayList<Card> getPersonalCards() {
         return personalCards;
     }
 
     /**
      * @param personalCards the personalCards to set
      */
-    public void setPersonalCards(ArrayList<FrenchCard> personalCards) {
+    public void setPersonalCards(ArrayList<Card> personalCards) {
         this.personalCards = personalCards;
     }
 

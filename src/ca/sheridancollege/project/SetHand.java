@@ -7,7 +7,7 @@ import java.util.List;
 
 public class SetHand {
 
-    private final GroupOfCards cards;
+    private final CardDeck cards;
     private static SetHand instance;
     private SetHand() {
         cards = CardDeck.getInstance();
@@ -20,6 +20,7 @@ public class SetHand {
     }
 
     public List<List<Card>> fetchCards(int players) {
+        cards.initializeDeck();
         if (players <= 0) {
             throw new IllegalArgumentException("Number of players must be greater than 0");
         }

@@ -15,7 +15,6 @@ public class CardDeck extends GroupOfCards{
 
     private CardDeck() {
         super(52);
-        initializeDeck();
     }
 
     public static CardDeck getInstance(){
@@ -25,7 +24,8 @@ public class CardDeck extends GroupOfCards{
         return instance;
     }
 
-    private void initializeDeck() {
+    public void initializeDeck() {
+        super.setSize(52);
         System.out.println("Initializing the deck...");
         ArrayList<Card> cards = new ArrayList<>();
 
@@ -46,4 +46,5 @@ public class CardDeck extends GroupOfCards{
         super.getCards().addAll(cards);
         super.shuffle();
     }
+
 }
