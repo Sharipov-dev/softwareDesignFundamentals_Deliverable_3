@@ -44,18 +44,7 @@ public class WarGame extends Game{
         System.out.println("Game started, choose options: ");
         OUTER:
         while (true) {
-            System.out.println("1. Play");
-            System.out.print("2. Wait (Skip the round)");
-            if (warPlayers.size() < 3) {
-                System.out.println(" - N/A (requires 3+ active players)");
-            } else if (user_player.getWait_counter() == 0) {
-                System.out.println(" - N/A (you are out of waits)");
-            } else {
-                System.out.println(": " + user_player.getWait_counter() + " uses left!");
-            }
-            System.out.println("3. Status");
-            System.out.println("4. Forfeit");
-            System.out.println("Your choice: ");
+            display_menu_options(warPlayers, user_player);
 
             int choice = sc.nextInt();
             switch (choice) {
@@ -63,7 +52,7 @@ public class WarGame extends Game{
                     playRound.play(warPlayers);
                     break;
                 case 2:
-                    if (warPlayers.size() >= 3) {
+                    if (returnLivingCount(warPlayers) >= 3) {
                         WarPlayer warPlayer = (WarPlayer) warPlayers.get(0);
                         warPlayer.setIs_participating(false);
                         int waits_remaining = warPlayer.getWait_counter() - 1;
@@ -122,6 +111,7 @@ public class WarGame extends Game{
             }
         }
     }
+    
     private void setHands(ArrayList<Player> players) {
         int count = 0;
         for(List<Card> playerDeck :  SetHand.getInstance().fetchCards(players.size())){
@@ -131,6 +121,37 @@ public class WarGame extends Game{
             count++;
         }
     }
+    
+    private void display_menu_options (ArrayList<Player> warPlayers, WarPlayer user_player) {
+        System.out.println("1. Play");
+        System.out.print("2. Wait (Skip the round)");
+        if (returnLivingCount(warPlayers) < 3) {
+            System.out.println(" - N/A (requires 3+ active players)");
+        } else if (user_player.getWait_counter() == 0) {
+            System.out.println(" - N/A (you are out of waits)");
+        } else {
+            System.out.println(": " + user_player.getWait_counter() + " uses left!");
+        }
+        System.out.println("3. Status");
+        System.out.println("4. Forfeit");
+        System.out.print("Your choice: ");
+    }
+    
+    private int returnLivingCount(ArrayList<Player> players) {
+        int livingPlayers = 0;
+        for (Player player : players) {
+            if (player instanceof WarPlayer) { 
+                WarPlayer warPlayer = (WarPlayer) player;
+                if (!warPlayer.getPersonalCards().isEmpty()) { // Check if they have cards
+                    livingPlayers++;
+                }
+            }
+        }
+    return livingPlayers;
+    }
+    
+
+    
     /**
      * When the game is over, use this method to declare and display a winning player.
      */
