@@ -17,7 +17,7 @@ public class CardPot {
     // Applied Singleton Design Pattern principle; we only ever need one pot as long as the game is running
     public static CardPot getInstance() {
         if (instance == null) {
-            instance = new CardPot(); // Lazy initialization
+            instance = new CardPot();
         }
         return instance;
     }
