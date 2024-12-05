@@ -72,6 +72,7 @@ public class WarGame extends Game{
             for (Player player : warplayers) {
                 // Print list of players
                 System.out.println("Player #" + counter + ": " + player.getName());
+                counter++;
             }
         } else {
             System.out.println("Welcome back! Players:");
