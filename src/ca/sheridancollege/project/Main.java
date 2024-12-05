@@ -6,13 +6,16 @@ package ca.sheridancollege.project;
 import java.util.Scanner;
 /**
  *
- * @author Salan
+ * @author elandrew
  */
 public class Main {
     public static void main(String[]args) {
         WarGame war = new WarGame("War");
         war.reset();
-        System.out.println("Starting a new game of: " + war.getName());
-        war.play();
+        war.setReplay(false);
+        do {
+            System.out.println("Starting a new game of: " + war.getName());
+            war.play();
+        } while (war.getReplay() == true);
     }
 }

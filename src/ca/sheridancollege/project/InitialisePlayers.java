@@ -33,7 +33,6 @@ public class InitialisePlayers {
             player_names[i] = other_player;
         }
         id_duplicates(player_names);
-        System.out.println(Arrays.toString(player_names));
         return player_names;
     }
     
