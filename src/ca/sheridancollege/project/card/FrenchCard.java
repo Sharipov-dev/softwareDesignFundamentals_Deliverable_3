@@ -17,4 +17,12 @@ public class FrenchCard extends Card {
     public String toString() {
         return String.format("Suit: %s, Value: %s", suit, value);
     }
+
+    public Suit getSuit() {
+        return suit;
+    }
+
+    public Value getValue() {
+        return value;
+    }
 }

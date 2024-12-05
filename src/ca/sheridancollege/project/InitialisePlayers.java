@@ -15,7 +15,6 @@ public class InitialisePlayers {
     /**
      * This is used to create a name for a particular player, to be returned to WarGame and added to an Array of names
      * If a given name is left blank, then it assigns a default name to that player
-     * @param player_count
      * @return 
      */
     
