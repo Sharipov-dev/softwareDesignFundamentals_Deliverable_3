@@ -25,23 +25,7 @@ public class PlayRound {
         
         ArrayList<WarPlayer> participatingPlayers = new ArrayList<>(); // Only participating players play
         
-        for (Player player : players) {
-            if (player instanceof WarPlayer) {
-                WarPlayer warPlayer = (WarPlayer) player;
-
-                // If player is participating
-                if (warPlayer.is_participating() && !warPlayer.getPersonalCards().isEmpty()) {
-                    participatingPlayers.add(warPlayer);
-                    Card card = warPlayer.getPersonalCards().remove(0);
-                    cardsInPlay.add(card);
-                    System.out.println(warPlayer.getName() + " plays " + card);
-                } else if(!warPlayer.is_participating()) {
-                    System.out.println(warPlayer.getName() + " is sitting this round out!");
-                }else{
-                    System.out.println(warPlayer.getName() + " has no cards left!");
-                }
-            }
-        }
+        makeParticipantList(players, participatingPlayers);
 
         // Add all played cards to pot
         cardPot.addToPot(cardsInPlay);
@@ -49,21 +33,9 @@ public class PlayRound {
         // Compare cards to determine who the winner is, if there is one
         WarPlayer winner = compareCards(participatingPlayers);
 
-        // Final comparison
-        if (winner != null) {
-            winner.getPersonalCards().addAll(cardPot.getCardPot());
-            System.out.println(winner.getName() + " wins the round and collects " + cardsInPlay.size() + " cards.");
-            cardPot.clearPot();
-            return true;
-        } else {
-            System.out.println("It's a tie! Play one more round to get all the cards.");
-            
-            for (WarPlayer player : participatingPlayers) {
-                player.setIs_participating(false);
-                System.out.println(player.getName() + " has lost the tie and will sit the next hand out.");
-            }
-            return false;
-        }
+        boolean roundWon = checkWinner(winner, participatingPlayers);
+        
+        return roundWon;
     }
 
     private WarPlayer compareCards(ArrayList<WarPlayer> players) {
@@ -86,5 +58,48 @@ public class PlayRound {
         }
 
         return winner;
+    }
+    
+    private ArrayList<WarPlayer> makeParticipantList(List<Player> players, ArrayList<WarPlayer> participatingPlayers) {
+            for (Player player : players) {
+            if (player instanceof WarPlayer) {
+                WarPlayer warPlayer = (WarPlayer) player;
+
+                // If player is participating
+                if (warPlayer.is_participating() && !warPlayer.getPersonalCards().isEmpty()) {
+                    participatingPlayers.add(warPlayer);
+                    Card card = warPlayer.getPersonalCards().remove(0);
+                    cardsInPlay.add(card);
+                    System.out.println(warPlayer.getName() + " plays " + card);
+                } 
+                // If player is not participating
+                else if(!warPlayer.is_participating()) {
+                    System.out.println(warPlayer.getName() + " is sitting this round out!");
+                }
+                // If player has been eliminated
+                else{
+                    System.out.println(warPlayer.getName() + " has no cards left!");
+                }
+            }
+        }
+        return participatingPlayers;
+    }
+    
+    private boolean checkWinner(WarPlayer winner, ArrayList<WarPlayer> participatingPlayers) {
+        if (winner != null) {
+            // One person claims the pot
+            winner.getPersonalCards().addAll(cardPot.getCardPot());
+            System.out.println(winner.getName() + " wins the round and collects " + cardsInPlay.size() + " cards.");
+            cardPot.clearPot();
+            return true;
+        } else {
+            // Nobody won; pot remains and all non-tied parties are flagged as not participating
+            System.out.println("It's a tie! Play one more round to get all the cards.");
+            for (WarPlayer player : participatingPlayers) {
+                player.setIs_participating(false);
+                System.out.println(player.getName() + " has lost the tie and will sit the next hand out.");
+            }
+            return false;
+        }
     }
 }
