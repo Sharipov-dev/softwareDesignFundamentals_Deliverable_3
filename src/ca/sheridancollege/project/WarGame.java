@@ -90,9 +90,8 @@ public class WarGame extends Game{
                 System.out.println("Congratulations, You won!");
                 break ;
             } else {
-                System.out.println("No winners in this round");
             }
-
+            roundCount++;
         }
         System.out.println("Finishing the game...");
 
