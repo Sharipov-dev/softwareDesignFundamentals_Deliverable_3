@@ -92,7 +92,7 @@ public class PlayRound {
     }
     
     private boolean checkWinner(WarPlayer winner, ArrayList<WarPlayer> participatingPlayers, 
-            ArrayList<WarPlayer> tiedPlayers) {
+        ArrayList<WarPlayer> tiedPlayers) {
         if (winner != null) {
             // One person claims the pot
             winner.getPersonalCards().addAll(cardPot.getCardPot());
