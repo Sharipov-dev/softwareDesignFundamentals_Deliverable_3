@@ -38,7 +38,7 @@ public class WarPlayer extends Player {
     /**
      * @return the is_participating
      */
-    public boolean isIs_participating() {
+    public boolean is_participating() {
         return is_participating;
     }
 

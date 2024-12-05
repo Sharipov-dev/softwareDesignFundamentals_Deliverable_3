@@ -21,7 +21,7 @@ public class PlayRound {
         cardPot = new CardPot();
         cardsInPlay.clear();
         for (WarPlayer player : players) {
-            if (player.isIs_participating() && !player.getPersonalCards().isEmpty()) {
+            if (player.is_participating() && !player.getPersonalCards().isEmpty()) {
                 FrenchCard card = player.getPersonalCards().remove(0);
                 cardsInPlay.add(card);
                 cardPot.addToPot(List.of(card));
@@ -32,6 +32,8 @@ public class PlayRound {
         }
 
         WarPlayer winner = compareCards(players);
+        cardPot.clearPot();
+
         if (winner != null) {
             winner.getPersonalCards().addAll(cardsInPlay);
             System.out.println(winner.getName() + " wins the round and collects " + cardsInPlay.size() + " cards.");
@@ -49,7 +51,7 @@ public class PlayRound {
         WarPlayer winner = null;
 
         for (WarPlayer player : players) {
-            if (player.isIs_participating() && !player.getPersonalCards().isEmpty()) {
+            if (player.is_participating() && !player.getPersonalCards().isEmpty()) {
                 FrenchCard card = cardsInPlay.get(players.indexOf(player));
                 playedCards.put(player, card);
 
@@ -57,7 +59,7 @@ public class PlayRound {
                     highestCard = card;
                     winner = player;
                 } else if (card.getValue().getRank() == highestCard.getValue().getRank()) {
-                    winner = null; // Ничья
+                    winner = null;
                 }
             }
         }
