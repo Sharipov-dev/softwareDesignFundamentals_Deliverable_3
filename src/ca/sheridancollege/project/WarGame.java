@@ -128,24 +128,28 @@ public class WarGame extends Game{
     private void display_menu_options (ArrayList<Player> warPlayers, WarPlayer user_player) {
         System.out.println("1. Play");
         System.out.print("2. Wait (Skip the round)");
-        if (returnLivingCount(warPlayers) < 3) {
+        
+        // Suffix lines depending on various conditions
+        if (returnActiveCount(warPlayers) < 3) {
             System.out.println(" - N/A (requires 3+ active players)");
         } else if (user_player.getWait_counter() == 0) {
             System.out.println(" - N/A (you are out of waits)");
         } else {
             System.out.println(": " + user_player.getWait_counter() + " uses left!");
         }
+        
         System.out.println("3. Status");
         System.out.println("4. Forfeit");
+        
         System.out.print("Your choice: ");
     }
     
-    private int returnLivingCount(ArrayList<Player> players) {
+    private int returnActiveCount(ArrayList<Player> players) {
         int livingPlayers = 0;
         for (Player player : players) {
             if (player instanceof WarPlayer) { 
                 WarPlayer warPlayer = (WarPlayer) player;
-                if (!warPlayer.getPersonalCards().isEmpty()) { // Check if they have cards
+                if (!warPlayer.getPersonalCards().isEmpty() || !warPlayer.is_participating()) {
                     livingPlayers++;
                 }
             }
