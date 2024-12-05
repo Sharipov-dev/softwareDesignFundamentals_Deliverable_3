@@ -35,7 +35,12 @@ public class WarGame extends Game{
         OUTER:
         while (true) {
             System.out.println("1. Play");
-            System.out.println("2. Wait (Skip the round)");
+            System.out.print("2. Wait (Skip the round)");
+            if (warPlayers.size() < 3) {
+                System.out.println(" - N/A (requires 3+ players)");
+            } else {
+                System.out.println();
+            }
             System.out.println("3. Status");
             System.out.println("4. Forfeit");
             System.out.println("Your choice: ");
@@ -46,9 +51,11 @@ public class WarGame extends Game{
                     playRound.play(warPlayers);
                     break;
                 case 2:
-                    WarPlayer warPlayer = (WarPlayer) warPlayers.get(0);
-                    warPlayer.setIs_participating(false);
-                    playRound.play(warPlayers);
+                    if (warPlayers.size() >= 3) {
+                        WarPlayer warPlayer = (WarPlayer) warPlayers.get(0);
+                        warPlayer.setIs_participating(false);
+                        playRound.play(warPlayers);
+                    }
                     break;
                 case 3:
                     String[] name_list = new String[warPlayers.size()];
