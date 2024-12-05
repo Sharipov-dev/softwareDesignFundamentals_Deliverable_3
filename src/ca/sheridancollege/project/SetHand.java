@@ -33,7 +33,7 @@ public class SetHand {
         List<List<Card>> dealtCards = new ArrayList<>();
 
         for (int i = 0; i < players; i++) {
-            System.out.println(String.format("Setting hand for %s player", i));
+            System.out.println(String.format("Setting hand for " + (i + 1) + " player", i));
             List<Card> playerHand = new ArrayList<>(cards.getCards().subList(0, cardNumberPerPlayer));
             cards.getCards().subList(0, cardNumberPerPlayer).clear();
             dealtCards.add(playerHand);
