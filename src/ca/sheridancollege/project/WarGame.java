@@ -51,9 +51,11 @@ public class WarGame extends Game{
             int choice = sc.nextInt();
             switch (choice) {
                 case 1:
+                    roundCount++;
                     playRound.play(warPlayers);
                     break;
                 case 2:
+                    roundCount++;
                     if (returnActiveCount(warPlayers) >= 3) {
                         user_player.setIs_participating(false);
                         int waits_remaining = user_player.getWait_counter() - 1;
@@ -91,7 +93,6 @@ public class WarGame extends Game{
                 break ;
             } else {
             }
-            roundCount++;
         }
         System.out.println("Finishing the game...");
 
