@@ -20,7 +20,7 @@ public class PlayRound {
     //returns false if it is a tie
     //returns true if the winner is determined
     public boolean play(List<Player> players) {
-        cardPot = new CardPot(); // Cards that can be won after x number of rounds
+        cardPot = CardPot.getInstance(); // Cards that can be won after x number of rounds
         cardsInPlay.clear(); // Cards that are played this round; all cards get added to the pot
         
         ArrayList<WarPlayer> participatingPlayers = new ArrayList<>(); // Only participating players play
