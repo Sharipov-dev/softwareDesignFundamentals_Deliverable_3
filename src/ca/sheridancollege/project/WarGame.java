@@ -58,9 +58,11 @@ public class WarGame extends Game{
             // 1 = Play, 2 = Wait, 3 = Status, 4 = Forfeit (forced game reset, no winner announced)
             switch (choice) {
                 case 1:
+                    roundCount++;
                     playRound.play(warPlayers);
                     break;
                 case 2:
+                    roundCount++;
                     if (returnActiveCount(warPlayers) >= 3) {
                         user_player.setIs_participating(false);
                         int waits_remaining = user_player.getWait_counter() - 1;
@@ -93,8 +95,6 @@ public class WarGame extends Game{
             // the checkLosers() method)
             checkLosers();
             declareWinner();
-            
-            roundCount++;
         }
         System.out.println("Finishing the game...");
 
@@ -163,6 +163,10 @@ public class WarGame extends Game{
         System.out.print("Your choice: ");
     }
     
+    /**
+     * Used for delegating the decision-making in display_menu_options() method; this method decides whether to 
+     * append an extra string to option #2 or not
+     */
     private int returnActiveCount(ArrayList<Player> players) {
         int livingPlayers = 0;
         for (Player player : players) {
@@ -177,7 +181,7 @@ public class WarGame extends Game{
     }
        
     /**
-     * Used to determine if there is a winner.
+     * Used to determine if there is a winner
      */
     public void checkLosers() {
         List<Player> toRemove = new ArrayList<>();
@@ -192,7 +196,7 @@ public class WarGame extends Game{
     }
     
     /**
-     * When the game is over, use this method to declare and display a winning player.
+     * When the game is over, use this method to declare and display a winning player
      */
     @Override
     public void declareWinner() {
