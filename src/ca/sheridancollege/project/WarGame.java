@@ -55,7 +55,7 @@ public class WarGame extends Game{
             } else {
                 choice = sc.nextInt();
             }
-            // 1 = Play, 2 = Wait, 3 = Status, 4 = Forfeit
+            // 1 = Play, 2 = Wait, 3 = Status, 4 = Forfeit (forced game reset, no winner announced)
             switch (choice) {
                 case 1:
                     playRound.play(warPlayers);
@@ -89,8 +89,9 @@ public class WarGame extends Game{
                     System.out.println("Unknown choice; try again.");
                     break;
             }
-            // A winner is only declared once only a single player has cards left
-            discoverWinner();
+            // A winner is only declared once only a single player has cards left (players are evaluated in
+            // the checkLosers() method)
+            checkLosers();
             declareWinner();
             
             roundCount++;
@@ -178,7 +179,7 @@ public class WarGame extends Game{
     /**
      * Used to determine if there is a winner.
      */
-    public void discoverWinner() {
+    public void checkLosers() {
         List<Player> toRemove = new ArrayList<>();
         for (Player player: getPlayers()) {
             WarPlayer warPlayer = (WarPlayer) player;
