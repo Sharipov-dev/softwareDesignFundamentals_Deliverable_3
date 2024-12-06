@@ -42,13 +42,20 @@ public class WarGame extends Game{
         
         // Main Menu
         Scanner sc = new Scanner(System.in);
-        System.out.println("Game started, choose options: ");
         OUTER:
         while (true) {
+            System.out.println("Game started, choose a valid option: ");
             // Prints menu options
             display_menu_options(warPlayers, user_player);
-
-            int choice = sc.nextInt();
+            int choice;
+            // Input validation so that the game doesn't crash
+            if (!sc.hasNextInt()) {
+                choice = 0;
+                sc.next();
+            } else {
+                choice = sc.nextInt();
+            }
+            // 1 = Play, 2 = Wait, 3 = Status, 4 = Forfeit
             switch (choice) {
                 case 1:
                     playRound.play(warPlayers);
@@ -76,21 +83,16 @@ public class WarGame extends Game{
                     Status.display_stats(roundCount, name_list, score_list);
                     break;
                 case 4:
+                    reset();
                     break OUTER;
                 default:
                     System.out.println("Unknown choice; try again.");
                     break;
             }
-            WarPlayer user = (WarPlayer) warPlayers.get(0);
+            // A winner is only declared once only a single player has cards left
+            discoverWinner();
             declareWinner();
-            if (!getPlayers().contains(user)) {
-                System.out.println("You lost!");
-                break ;
-            } else if (lostPlayers.size() == warPlayers.size() - 1) {
-                System.out.println("Congratulations, You won!");
-                break ;
-            } else {
-            }
+            
             roundCount++;
         }
         System.out.println("Finishing the game...");
@@ -98,15 +100,13 @@ public class WarGame extends Game{
     }
 
     /**
-     * We broke this off into its own method for readability; this is a loop where, ONLY if it is a brand new game, the
-     * entire player ArrayList list is filled with new player objects
-     *
-     * Otherwise, they are replaying with the same settings as before and the process can be streamlined
-     *
+     * This is a loop where, ONLY if it is a brand new game, the entire player ArrayList list is filled with new player 
+     * objects; otherwise, they are replaying with the same settings as before and the process can be streamlined
      */
     private void player_meet_and_greet(ArrayList<Player> warplayers) {
         if (this.replay == false) {
             String[] player_names = InitialisePlayers.register_players();
+            // Basically a small factory, iterating through the returned player_names list to assign names to players
             for (String name : player_names) {
                 WarPlayer player = new WarPlayer(name);
                 warplayers.add(player);
@@ -127,6 +127,9 @@ public class WarGame extends Game{
         }
     }
     
+    /**
+     * Sets each player's hand at the start of a new game
+     */
     private void setHands(ArrayList<Player> players) {
         int count = 0;
         for(List<Card> playerDeck :  SetHand.getInstance().fetchCards(players.size())){
@@ -137,9 +140,12 @@ public class WarGame extends Game{
         }
     }
     
+    /**
+     * Displays menu options
+     */
     private void display_menu_options (ArrayList<Player> warPlayers, WarPlayer user_player) {
         System.out.println("1. Play");
-        System.out.print("2. Wait (Skip the round)");
+        System.out.print("2. Wait (Skip round)");
         
         // Suffix lines depending on various conditions
         if (returnActiveCount(warPlayers) < 3) {
@@ -168,14 +174,11 @@ public class WarGame extends Game{
         }
     return livingPlayers;
     }
-    
-
-    
+       
     /**
-     * When the game is over, use this method to declare and display a winning player.
+     * Used to determine if there is a winner.
      */
-    @Override
-    public void declareWinner() {
+    public void discoverWinner() {
         List<Player> toRemove = new ArrayList<>();
         for (Player player: getPlayers()) {
             WarPlayer warPlayer = (WarPlayer) player;
@@ -185,10 +188,38 @@ public class WarGame extends Game{
             }
         }
         getPlayers().removeAll(toRemove);
-
     }
+    
+    /**
+     * When the game is over, use this method to declare and display a winning player.
+     */
+    @Override
+    public void declareWinner() {
+        ArrayList<Player> warPlayers = this.getPlayers();
+        WarPlayer user = (WarPlayer) warPlayers.get(0);
+            if (!getPlayers().contains(user)) {
+                System.out.println("You lost!");
+                reset();
+            } else if (lostPlayers.size() == warPlayers.size() - 1) {
+                System.out.println("Congratulations, You won!");
+                reset();
+            } else {
+            }
+    }
+    
+    /**
+     * Asks the player if they want to play again with the same player settings
+     * 
+     * Called after a winner is announced, or else if the player forfeits a game
+     */
     public void reset(){
-        setRoundCount(0);
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Would you like to play again? (y/n)");
+        String choice = sc.nextLine();
+        if (choice.toLowerCase().equals("y")) {
+            setRoundCount(0);
+            setReplay(true);
+        }
     }
     
     /**

@@ -11,7 +11,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[]args) {
         WarGame war = new WarGame("War");
-        war.reset();
         war.setReplay(false);
         do {
             System.out.println("Starting a new game of: " + war.getName());
